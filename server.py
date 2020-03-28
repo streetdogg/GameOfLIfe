@@ -4,8 +4,8 @@ from random import randint
 
 app = Flask(__name__)
 
-BOARD_SIZE_X = 10
-BOARD_SIZE_Y = 10
+BOARD_SIZE_X = 20
+BOARD_SIZE_Y = 20
 
 game_state = {
     "board_size" : {

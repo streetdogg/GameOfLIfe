@@ -1,10 +1,9 @@
-document.addEventListener('keypress', playerMove);
-
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
 function renderPlayer() {
+    player = document.getElementById(self.name);
     player.style.gridColumn = self.position.x + "/" + (self.position.x + 1);
     player.style.gridRow = self.position.y + "/" + (self.position.y + 1);
 }
@@ -34,7 +33,7 @@ function opponentState(name, obj) {
     // Add new opponent
     if(op == null){
         newOpponent = document.createElement('div');
-        newOpponent.className = 'opponent';
+        newOpponent.className = 'opponent fas fa-angry';
         newOpponent.id = name;
         document.getElementById('arena').appendChild(newOpponent);
         op = document.getElementById(name);
@@ -45,7 +44,7 @@ function opponentState(name, obj) {
 }
 
 function getGameState() {
-    fetch('http://127.0.0.1:5000/gamestate')
+    fetch('/gamestate')
     .then((response) => {
         return response.json()
     })
@@ -74,14 +73,41 @@ var self = {
     }
 }
 
-function playerMove(e) {
-    url = '/move/?player=' + self.name + "&move=" + e.key
-    if (e.key == 'w' || e.key == 's' || e.key == 'a' || e.key == 'd')
+function plantBomb() {
+	bomb = document.createElement('div');
+    bomb.className = 'bomb fas fa-bomb';
+	// bomb.className = 'bomb';
+    bomb.id = self.name + 'bomb';
+    bomb.style.gridColumn = self.position.x + "/" + (self.position.x + 1);
+    bomb.style.gridRow = self.position.y + "/" + (self.position.y + 1);
+    document.getElementById('arena').appendChild(bomb);
+
+}
+
+function registerMove(key) {
+    url = '/move/?player=' + self.name + "&move=" + key
+    if (key == 'w' || key == 's' || key == 'a' || key == 'd')
         fetch(url);
+}
+
+function keyDetected(e) {
+    if (self.name == null)
+		return
+
+	if (e.key == 'p') {
+		plantBomb();
+		return;
+	}
+
+    if (e.key == 'w' || e.key == 's' || e.key == 'a' || e.key == 'd') {
+		registerMove(e.key);
+		return;
+	}
 }
 
 function gameLoop(n) {
     self.name = n;
-    player = document.getElementById(self.name);
-    setInterval(getGameState, 100);
+
+    document.addEventListener('keypress', keyDetected);
+    setInterval(getGameState, 200);
 }

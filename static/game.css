@@ -9,7 +9,7 @@
     width: 600px;
     height: 600px;
     display: grid;
-    background-color:#F8F9F9;
+    /* background-color:#F8F9F9; */
     grid-template-columns: repeat(20, 1fr);
     grid-template-rows: repeat(20, 1fr);
     grid-column-gap: 2px;
@@ -17,12 +17,16 @@
     position: absolute;
     left: 20%;
     top: 15%;
-    box-shadow: 0 0px 2px 0 rgba(0, 0, 0, 0.2), 0 0px 5px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.19);
 }
 
 .container > .player {
     background-color: #2ECC71;
-    box-shadow: 0px 0px 1px 0px #888888;
+    padding-top: 10%;
+    color: white;
+    font-size: x-large;
+    text-align: center;
+    box-shadow: 0px 0px 2px 0px #888888;
     border-radius: 2%;
     width: auto;
     height: auto;
@@ -31,8 +35,43 @@
 
 .container > .opponent {
     background-color: rgb(204, 46, 46);
-    box-shadow: 0px 0px 1px 0px #888888;
+    padding-top: 10%;
+    color: white;
+    font-size: x-large;
+    text-align: center;
+    box-shadow: 0px 0px 2px 0px #888888;
     border-radius: 2%;
     width: auto;
     height: auto;
+    animation: breath 1s linear infinite;
+}
+
+.container > .bomb {
+    background-color: rgb(0, 0, 0);
+    box-shadow: 0px 0px 2px 0px #888888;
+    padding-top: 10%;
+    color: white;
+    font-size: x-large;
+    text-align: center;
+    border-radius: 2%;
+    width: auto;
+    height: auto;
+    z-index: 2;
+    animation: tick 3s linear infinite;
+}
+
+@keyframes breath {
+    50% { opacity: 0.3; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes tick {
+    16%, 50%, 83%{
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+    33%, 66%, 100% {
+        opacity: 1.0;
+        transform: scale(1);
+    }
 }
