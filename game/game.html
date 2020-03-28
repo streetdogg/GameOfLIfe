@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="static/game.css">
+        <script src="static/game.js"></script>
+    </head>
+    <body>
+        <div id='init'>
+            <input type="text" id="playerName"></input>
+            <button onclick='startGame()'> Play </button>
+        </div>
+        <div class="container">
+            <div id='player' class="player"></div>
+        </div>
+        <script>
+            function startGame() {
+                playerName = document.getElementById('playerName').value;
+
+                url = '/addplayer/?player=' + playerName
+                fetch(url).then(() => {
+                    document.getElementById("init").style.display = "none";
+                })
+                document.getElementById("player").id = playerName;
+                gameLoop(playerName);
+            }
+        </script>
+    </body>
+</html>

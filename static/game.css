@@ -1,0 +1,35 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+.container {
+    padding: 2px;
+    width: 600px;
+    height: 600px;
+    display: grid;
+    background-color:#F8F9F9;
+    grid-template-columns: repeat(20, 1fr);
+    grid-template-rows: repeat(20, 1fr);
+    position: absolute;
+    left: 20%;
+    top: 15%;
+    box-shadow: 0 0px 2px 0 rgba(0, 0, 0, 0.2), 0 0px 5px 0 rgba(0, 0, 0, 0.19);
+}
+
+.container > .player {
+    background-color: #2ECC71;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0px 5px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 2%;
+    width: auto;
+    height: auto;
+}
+
+.container > .opponent {
+    background-color: rgb(204, 46, 46);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0px 5px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 2%;
+    width: auto;
+    height: auto;
+}
