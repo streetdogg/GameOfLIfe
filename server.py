@@ -13,16 +13,6 @@ game_state = {
         "y" : BOARD_SIZE_Y
     },
     "players" : {
-        "piyush" : {
-            "position" : {
-                'x' : 4,
-                'y' : 5
-            },
-            "bomb" : {
-                'deployed' : False,
-                'timeout' : None
-            }
-        }
     }
 }
 

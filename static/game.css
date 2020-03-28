@@ -12,6 +12,8 @@
     background-color:#F8F9F9;
     grid-template-columns: repeat(20, 1fr);
     grid-template-rows: repeat(20, 1fr);
+    grid-column-gap: 2px;
+    grid-row-gap: 2px;
     position: absolute;
     left: 20%;
     top: 15%;
@@ -20,15 +22,16 @@
 
 .container > .player {
     background-color: #2ECC71;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0px 5px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0px 0px 1px 0px #888888;
     border-radius: 2%;
     width: auto;
     height: auto;
+    z-index: 2;
 }
 
 .container > .opponent {
     background-color: rgb(204, 46, 46);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0px 5px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0px 0px 1px 0px #888888;
     border-radius: 2%;
     width: auto;
     height: auto;
