@@ -33,7 +33,7 @@ function opponentState(name, obj) {
     // Add new opponent
     if(op == null){
         newOpponent = document.createElement('div');
-        newOpponent.className = 'opponent fas fa-angry';
+        newOpponent.className = 'opponent';
         newOpponent.id = name;
         document.getElementById('arena').appendChild(newOpponent);
         op = document.getElementById(name);
@@ -82,6 +82,29 @@ function plantBomb() {
     bomb.style.gridRow = self.position.y + "/" + (self.position.y + 1);
     document.getElementById('arena').appendChild(bomb);
 
+    setTimeout(explosion, 3000, bomb, self.position.x, self.position.y);
+}
+
+function explosion(obj, x, y) {
+    console.log(x, y);
+
+    explodeInX = document.createElement('div');
+    explodeInY = document.createElement('div');
+
+    explodeInX.className = 'explosionY';
+    explodeInY.className = 'explosionX';
+
+    explodeInX.style.gridColumn = x + "/" + (x + 1);
+    explodeInY.style.gridRow = y + "/" + (y + 1);
+
+    document.getElementById('arena').appendChild(explodeInY);
+    document.getElementById('arena').appendChild(explodeInX);
+    obj.remove();
+
+    setTimeout(() => { 
+        explodeInX.remove();
+        explodeInY.remove();
+    }, 500);
 }
 
 function registerMove(key) {
@@ -109,5 +132,5 @@ function gameLoop(n) {
     self.name = n;
 
     document.addEventListener('keypress', keyDetected);
-    setInterval(getGameState, 200);
+    setInterval(getGameState, 250);
 }

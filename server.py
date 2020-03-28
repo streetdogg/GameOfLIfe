@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 from flask import Flask, jsonify, request
 from random import randint
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 app = Flask(__name__)
 

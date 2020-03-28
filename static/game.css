@@ -43,7 +43,7 @@
     border-radius: 2%;
     width: auto;
     height: auto;
-    animation: breath 1s linear infinite;
+    /* animation: breath 1s linear infinite; */
 }
 
 .container > .bomb {
@@ -57,7 +57,21 @@
     width: auto;
     height: auto;
     z-index: 2;
-    animation: tick 3s linear infinite;
+    animation: tick 1s linear infinite;
+}
+
+.container > .explosionY {
+    background-color: red;
+    grid-row: 1 / 21;
+    z-index: 3;
+    animation: explode 0.5s linear;
+}
+
+.container > .explosionX {
+    background-color: red;
+    grid-column: 1 / 21;
+    z-index: 4;
+    animation: explode 0.5s linear;
 }
 
 @keyframes breath {
@@ -67,11 +81,54 @@
 
 @keyframes tick {
     16%, 50%, 83%{
-        opacity: 0.3;
-        transform: scale(0.8);
+        opacity: 0.5;
+        transform: scale(0.95);
     }
     33%, 66%, 100% {
         opacity: 1.0;
         transform: scale(1);
+    }
+}
+
+@keyframes explode {
+    10% {
+        opacity: 0.9;
+        transform: scale(0.9);
+    }
+    20% {
+        opacity: 0.8;
+        transform: scale(0.8);
+    }
+    30% {
+        opacity: 0.7;
+        transform: scale(0.7);
+    }
+    40% {
+        opacity: 0.6;
+        transform: scale(0.6);
+    }
+    50%{
+        opacity: 0.5;
+        transform: scale(0.5);
+    }
+    60% {
+        opacity: 0.4;
+        transform: scale(0.4);
+    }
+    70% {
+        opacity: 0.3;
+        transform: scale(0.3);
+    }
+    80% {
+        opacity: 0.2;
+        transform: scale(0.2);
+    }
+    90% {
+        opacity: 0.1;
+        transform: scale(0.1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0);
     }
 }
