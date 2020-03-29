@@ -2,6 +2,8 @@
 from flask import Flask, jsonify, request
 from random import randint
 import logging
+import threading
+
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
@@ -27,7 +29,9 @@ def initPlayer(player):
         },
         "bomb" : {
             'deployed' : False,
-            'timeout' : None
+            'x' : '',
+            'y' : '',
+            'explode' : False
         }
     }
     
@@ -81,6 +85,28 @@ def registerMove():
     
     game_state['players'][player]['position']['x'] += dx
     game_state['players'][player]['position']['y'] += dy
+
+    return jsonify(game_state)
+
+def bombTimeout(*args):
+    player = args[0]
+    game_state['players'][player]['bomb']['explode'] = True
+
+
+@app.route('/plantbomb/', methods = ['POST', 'GET'])
+def plantBomb():
+    player = request.args.get('player')
+    bx = request.args.get('bx')
+    by = request.args.get('by')
+
+    game_state['players'][player]['bomb']['x'] = bx
+    game_state['players'][player]['bomb']['y'] = by
+
+    game_state['players'][player]['bomb']['deployed'] = True
+    game_state['players'][player]['bomb']['explode'] = False
+
+    bombTicking = threading.Timer(2, bombTimeout, (player,))
+    bombTicking.start()
 
     return jsonify(game_state)
 

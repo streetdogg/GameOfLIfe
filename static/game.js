@@ -38,9 +38,31 @@ function opponentState(name, obj) {
         document.getElementById('arena').appendChild(newOpponent);
         op = document.getElementById(name);
     }
-
     // render the opponent in the arena
     renderOpponent(op, name, obj);
+
+    var bombDeploy = obj[name].bomb.deployed;
+    var explode = obj[name].bomb.explode;
+    if (bombDeploy == true && explode == false) {
+        var bx = obj[name].bomb.x;
+        var by = obj[name].bomb.y;
+
+        var bomb_id = name + 'bomb' + bx + by;
+        var bomb = document.getElementById(bomb_id)
+        if (bomb == null && obj[name].bomb.explode == false) {
+            plantBomb(name, bx, by);
+        }
+    } 
+    
+    if (bombDeploy == true && explode == true) {
+        var bx = obj[name].bomb.x;
+        var by = obj[name].bomb.y;
+        var bomb_id = name + 'bomb' + bx + by;
+        var bomb = document.getElementById(bomb_id)
+        if (bomb) {
+            explosion(bomb, bx, by);
+        } 
+    }
 }
 
 function getGameState() {
@@ -57,6 +79,21 @@ function getGameState() {
                   self.position.y = obj[key].position.y;
                   console.log(self.position)
                   renderPlayer();
+
+                  var bombDeploy = obj[key].bomb.deployed;
+                  if (bombDeploy == true) {
+                      var bx = obj[key].bomb.x;
+                      var by = obj[key].bomb.y;
+
+                      var bomb_id = key + 'bomb' + bx + by;
+                      var bomb = document.getElementById(bomb_id)
+                      if (bomb == null) {
+                        console.log(bx, by);
+                        plantBomb(key, bx, by);
+                      } else if (obj[key].bomb.explode){
+                        explosion(bomb, bx, by);
+                      }
+                  }
               }
             }
 
@@ -73,16 +110,19 @@ var self = {
     }
 }
 
-function plantBomb() {
-	bomb = document.createElement('div');
-    bomb.className = 'bomb fas fa-bomb';
-	// bomb.className = 'bomb';
-    bomb.id = self.name + 'bomb';
-    bomb.style.gridColumn = self.position.x + "/" + (self.position.x + 1);
-    bomb.style.gridRow = self.position.y + "/" + (self.position.y + 1);
-    document.getElementById('arena').appendChild(bomb);
+function playerPlantsBomb(key) {
+    url = '/plantbomb/?player=' + self.name + "&bx=" + self.position.x + "&by=" + self.position.y 
+    fetch(url);
+}
 
-    setTimeout(explosion, 3000, bomb, self.position.x, self.position.y);
+function plantBomb(name, x, y) {
+	bomb = document.createElement('div');
+    // bomb.className = 'bomb fas fa-bomb';
+	bomb.className = 'bomb';
+    bomb.id = name + 'bomb' + x + y;
+    bomb.style.gridColumnStart = x ;
+    bomb.style.gridRowStart = y;
+    document.getElementById('arena').appendChild(bomb);
 }
 
 function explosion(obj, x, y) {
@@ -94,16 +134,23 @@ function explosion(obj, x, y) {
     explodeInX.className = 'explosionY';
     explodeInY.className = 'explosionX';
 
-    explodeInX.style.gridColumn = x + "/" + (x + 1);
-    explodeInY.style.gridRow = y + "/" + (y + 1);
+    explodeInX.style.gridColumnStart = x;
+    explodeInY.style.gridRowStart = y;
 
     document.getElementById('arena').appendChild(explodeInY);
     document.getElementById('arena').appendChild(explodeInX);
     obj.remove();
 
     setTimeout(() => { 
-        explodeInX.remove();
-        explodeInY.remove();
+        var e = document.getElementsByClassName('explosionY');
+        while(e.length > 0){
+            e[0].parentNode.removeChild(e[0]);
+        }
+
+        e = document.getElementsByClassName('explosionX');
+        while(e.length > 0){
+            e[0].parentNode.removeChild(e[0]);
+        }
     }, 500);
 }
 
@@ -118,11 +165,11 @@ function keyDetected(e) {
 		return
 
 	if (e.key == 'p') {
-		plantBomb();
+		playerPlantsBomb();
 		return;
 	}
 
-    if (e.key == 'w' || e.key == 's' || e.key == 'a' || e.key == 'd') {
+    if (e.key == 'w' || e.key == 's' || e.key == 'a' || e.key == 'd' || e.key == 'p') {
 		registerMove(e.key);
 		return;
 	}
